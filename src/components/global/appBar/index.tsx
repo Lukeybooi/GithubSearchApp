@@ -10,9 +10,10 @@ import { useStyles } from './utl';
 interface IProps {
   readonly title: string;
   readonly onChange: (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+  readonly onKeyDown?: () => void;
 }
 
-const SearchAppBar: FC<IProps> = ({ title, onChange }) => {
+const SearchAppBar: FC<IProps> = ({ title, onChange, onKeyDown }) => {
   const classes = useStyles();
 
   return (
@@ -37,6 +38,11 @@ const SearchAppBar: FC<IProps> = ({ title, onChange }) => {
               }}
               inputProps={{ 'aria-label': 'search' }}
               onChange={onChange}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  onKeyDown();
+                }
+              }}
             />
           </div>
         </Toolbar>

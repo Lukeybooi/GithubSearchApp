@@ -1,5 +1,5 @@
 export const AVATAR_LINK =
-  'https://thumbs.dreamstime.com/b/default-avatar-profile-icon-vector-unknown-social-media-user-photo-default-avatar-profile-icon-vector-unknown-social-media-user-184816085.jpg';
+  'https://st3.depositphotos.com/3581215/18899/v/600/depositphotos_188994514-stock-illustration-vector-illustration-male-silhouette-profile.jpg';
 
 export const BASE_URL = 'https://api.github.com';
 
