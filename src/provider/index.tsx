@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { FC, PropsWithChildren, useContext, useReducer } from 'react';
-import { BASE_URL } from '../app-constants';
+import { BASE_URL, GENERIC_ERROR_MESSAGE } from '../app-constants';
 import { IGithub } from '../models';
 import {
   getUserDetailAction,
@@ -26,7 +26,7 @@ const GithubProvider: FC<PropsWithChildren<any>> = ({ children }) => {
           if (callback) callback();
         }
       })
-      .catch((e) => dispatch(getUserDetailErrorAction(e)));
+      .catch((e) => dispatch(getUserDetailErrorAction(e?.response?.data?.message || GENERIC_ERROR_MESSAGE)));
   };
 
   const searchUsername = (username: string) => {

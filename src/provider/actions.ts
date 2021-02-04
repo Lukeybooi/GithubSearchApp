@@ -13,6 +13,8 @@ export const getUserDetailAction = createAction<IStateContext>(ActionEnums.GetUs
   loadingFlag: true,
   successFlag: false,
   errorFlag: false,
+  error: null,
+  userDetail: {},
 }));
 
 export const getUserDetailSuccessAction = createAction<IStateContext, IGithub>(
@@ -31,6 +33,7 @@ export const getUserDetailErrorAction = createAction<IStateContext, any>(ActionE
 //#region GetUserDetails
 export const searchUsernameAction = createAction<IStateContext, string>(ActionEnums.SearchUsername, (username) => ({
   username,
+  error: null,
 }));
 //#endregion
 
