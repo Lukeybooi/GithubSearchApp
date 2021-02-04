@@ -6,6 +6,7 @@ interface IProps {
   readonly title: string;
   readonly message: string | ReactNode;
 }
+
 const AlertComponent: FC<IProps> = ({ severity, title, message }) => {
   return (
     <Alert severity={severity}>

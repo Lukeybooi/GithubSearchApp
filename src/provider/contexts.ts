@@ -12,6 +12,7 @@ export interface IStateContext {
 
 export interface IActionsContext {
   getUserDetail: (callback?: () => void) => void;
+  clearUserDetails: () => void;
   searchUsername: (username: string) => void;
 }
 

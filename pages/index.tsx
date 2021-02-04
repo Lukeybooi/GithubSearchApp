@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { Alert, CardBody, SearchAppBar } from '../src/components';
+import { Alert, AppBar, CardBody } from '../src/components';
 import MainLayout from '../src/components/global/layout';
 import { useGithubContext } from '../src/provider';
 
@@ -10,7 +10,7 @@ const Home: FC = () => {
 
   return (
     <MainLayout title='Home' isLoading={loadingFlag}>
-      <SearchAppBar
+      <AppBar
         title={id?.toString()}
         onChange={({ target: { value } }) => searchUsername(value)}
         onKeyDown={getUserDetail}

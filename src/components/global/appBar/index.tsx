@@ -23,13 +23,16 @@ const SearchAppBar: FC<IProps> = ({ title, onChange, onKeyDown }) => {
           <IconButton edge='start' className={classes.menuButton} color='inherit' aria-label='open drawer'>
             <Menu />
           </IconButton>
+
           <Typography className={classes.title} variant='h6' noWrap>
             {title}
           </Typography>
+
           <div className={classes.search}>
             <div className={classes.searchIcon}>
               <Search />
             </div>
+
             <InputBase
               placeholder='Search…'
               classes={{

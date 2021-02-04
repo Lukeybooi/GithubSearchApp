@@ -6,6 +6,7 @@ export enum ActionEnums {
   GetUserDetailRequest = 'GET_USER_DETAIL_REQUEST',
   GetUserDetailSuccess = 'GET_USER_DETAIL_SUCCESS',
   GetUserDetailError = 'GET_USER_DETAIL_ERROR',
+  ClearUserDetailRequest = 'CLEAR_USER_DETAIL_REQUEST',
   SearchUsername = 'SEARCH_USERNAME_ACTION',
 }
 //#region GetUserDetails
@@ -30,11 +31,19 @@ export const getUserDetailErrorAction = createAction<IStateContext, any>(ActionE
 }));
 //#endregion
 
+//#region ClearUserDetails
+export const clearUserDetailAction = createAction<IStateContext>(ActionEnums.ClearUserDetailRequest, () => ({
+  loadingFlag: false,
+  successFlag: false,
+  errorFlag: false,
+  error: null,
+  userDetail: {},
+}));
+//#endregion
+
 //#region GetUserDetails
 export const searchUsernameAction = createAction<IStateContext, string>(ActionEnums.SearchUsername, (username) => ({
   username,
   error: null,
 }));
 //#endregion
-
-/* NEW_ACTION_GOES_HERE */

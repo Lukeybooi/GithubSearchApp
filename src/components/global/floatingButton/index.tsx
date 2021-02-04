@@ -6,6 +6,7 @@ import React, { FC } from 'react';
 interface IProps {
   readonly title: string;
   readonly onClick: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+  readonly disabled?: boolean;
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -17,11 +18,18 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const FloatingActionButton: FC<IProps> = ({ title, onClick }) => {
+const FloatingActionButton: FC<IProps> = ({ title, onClick, disabled }) => {
   const classes = useStyles();
 
   return (
-    <Fab variant='extended' size='medium' color='primary' aria-label='add' className={classes.margin} onClick={onClick}>
+    <Fab
+      variant='extended'
+      size='medium'
+      color='primary'
+      aria-label='add'
+      className={classes.margin}
+      onClick={onClick}
+      disabled={disabled}>
       <NavigationIcon className={classes.extendedIcon} />
       {title}
     </Fab>

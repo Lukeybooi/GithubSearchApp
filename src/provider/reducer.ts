@@ -9,6 +9,7 @@ export function authReducer(state: IStateContext, action: ReduxActions.Action<IS
     case ActionEnums.GetUserDetailRequest:
     case ActionEnums.GetUserDetailSuccess:
     case ActionEnums.GetUserDetailError:
+    case ActionEnums.ClearUserDetailRequest:
     case ActionEnums.SearchUsername:
       return {
         ...state,

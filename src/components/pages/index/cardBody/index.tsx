@@ -11,12 +11,12 @@ import { GitHub } from '@material-ui/icons';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import clsx from 'clsx';
 import { useRouter } from 'next/router';
-import React, { FC } from 'react';
-import { MetaCard } from '../..';
-import { AVATAR_LINK } from '../../../app-constants';
-import { IGithub } from '../../../models';
-import { useGithubContext } from '../../../provider';
-import FloatingActionButton from '../floatingButton';
+import React, { FC, useEffect, useState } from 'react';
+import { MetaCard } from '../../..';
+import { AVATAR_LINK } from '../../../../app-constants';
+import { IGithub } from '../../../../models';
+import { useGithubContext } from '../../../../provider';
+import FloatingActionButton from '../../../global/floatingButton';
 import { useStyles } from './util';
 
 interface IProps extends IGithub {}
@@ -24,14 +24,20 @@ interface IProps extends IGithub {}
 const CardBody: FC<IProps> = ({ login, name, bio, avatar_url, location, company, email, followers, following }) => {
   const classes = useStyles();
 
-  const [expanded, setExpanded] = React.useState(false);
+  const [state, setState] = useState({ expanded: false });
 
   const router = useRouter();
 
-  const { getUserDetail, userDetail: { id, html_url } = {} } = useGithubContext();
+  const { getUserDetail, userDetail: { id, html_url } = {}, username } = useGithubContext();
+
+  useEffect(() => {
+    if (!id && state.expanded) {
+      setState({ ...state, expanded: false });
+    }
+  }, [id]);
 
   const handleExpandClick = () => {
-    setExpanded(!expanded);
+    setState({ ...state, expanded: !state.expanded });
   };
 
   const onClickFloatingButton = () => {
@@ -57,7 +63,7 @@ const CardBody: FC<IProps> = ({ login, name, bio, avatar_url, location, company,
         style={{ width: 552, height: 310 }}
       />
 
-      <FloatingActionButton title='Search' onClick={onClickFloatingButton} />
+      <FloatingActionButton title='Search' onClick={onClickFloatingButton} disabled={!username} />
 
       <CardContent>
         <Typography variant='body2' color='textSecondary' component='p'>
@@ -73,17 +79,17 @@ const CardBody: FC<IProps> = ({ login, name, bio, avatar_url, location, company,
 
           <IconButton
             className={clsx(classes.expand, {
-              [classes.expandOpen]: expanded,
+              [classes.expandOpen]: state.expanded,
             })}
             onClick={handleExpandClick}
-            aria-expanded={expanded}
+            aria-expanded={state.expanded}
             aria-label='show more'>
             <ExpandMoreIcon />
           </IconButton>
         </CardActions>
       )}
 
-      <Collapse in={expanded} timeout='auto' unmountOnExit>
+      <Collapse in={state.expanded} timeout='auto' unmountOnExit>
         <CardContent>
           {email && <MetaCard title='Email' item={email} />}
 

@@ -6,6 +6,7 @@ import {
   getUserDetailAction,
   getUserDetailErrorAction,
   getUserDetailSuccessAction,
+  clearUserDetailAction,
   searchUsernameAction,
 } from './actions';
 import { ActionsContext, CONTEXT_INITIAL_STATE, StateContext } from './contexts';
@@ -17,17 +18,23 @@ const GithubProvider: FC<PropsWithChildren<any>> = ({ children }) => {
   const getUserDetail = (callback: () => void) => {
     dispatch(getUserDetailAction());
 
-    axios
-      .get<IGithub>(`${BASE_URL}/users/${state?.username}`)
-      .then(({ status, data }) => {
-        if (status === 200) {
-          dispatch(getUserDetailSuccessAction(data));
+    if (!!state?.username) {
+      axios
+        .get<IGithub>(`${BASE_URL}/users/${state?.username}`)
+        .then(({ status, data }) => {
+          if (status === 200) {
+            dispatch(getUserDetailSuccessAction(data));
 
-          if (callback) callback();
-        }
-      })
-      .catch((e) => dispatch(getUserDetailErrorAction(e?.response?.data?.message || GENERIC_ERROR_MESSAGE)));
+            if (callback) callback();
+          }
+        })
+        .catch((e) => dispatch(getUserDetailErrorAction(e?.response?.data?.message || GENERIC_ERROR_MESSAGE)));
+    } else {
+      dispatch(clearUserDetailAction());
+    }
   };
+
+  const clearUserDetails = () => dispatch(clearUserDetailAction());
 
   const searchUsername = (username: string) => {
     dispatch(searchUsernameAction(username));
@@ -35,7 +42,9 @@ const GithubProvider: FC<PropsWithChildren<any>> = ({ children }) => {
 
   return (
     <StateContext.Provider value={state}>
-      <ActionsContext.Provider value={{ getUserDetail, searchUsername }}>{children}</ActionsContext.Provider>
+      <ActionsContext.Provider value={{ getUserDetail, searchUsername, clearUserDetails }}>
+        {children}
+      </ActionsContext.Provider>
     </StateContext.Provider>
   );
 };
