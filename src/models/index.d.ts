@@ -1,0 +1,1 @@
+export { IGithub } from './github';

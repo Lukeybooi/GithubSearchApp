@@ -1,4 +1,4 @@
-interface IGithub {
+export interface IGithub {
   id?: number;
   login?: string | null;
   node_id?: string | null;
