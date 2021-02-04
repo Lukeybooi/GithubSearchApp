@@ -13,19 +13,15 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 import ShareIcon from '@material-ui/icons/Share';
 import clsx from 'clsx';
 import React, { FC } from 'react';
+import { AVATAR_LINK } from '../../../app-constants';
+import { IGithub } from '../../../models';
 import { useGithubContext } from '../../../provider';
 import FloatingActionButton from '../floatingButton';
 import { useStyles } from './util';
 
-interface IProps {
-  readonly title: string;
-  readonly subheader: string;
-  readonly bio: string;
-  readonly initials: string;
-  readonly image: string;
-}
+interface IProps extends IGithub {}
 
-const CardBody: FC<IProps> = ({ title, subheader, bio, initials, image }) => {
+const CardBody: FC<IProps> = ({ login, name, bio, avatar_url, location, company, email, followers, following }) => {
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
 
@@ -44,7 +40,7 @@ const CardBody: FC<IProps> = ({ title, subheader, bio, initials, image }) => {
       <CardHeader
         avatar={
           <Avatar aria-label='recipe' className={classes.avatar}>
-            {initials}
+            {login?.charAt(0).toUpperCase()}
           </Avatar>
         }
         action={
@@ -52,10 +48,10 @@ const CardBody: FC<IProps> = ({ title, subheader, bio, initials, image }) => {
             <MoreVertIcon />
           </IconButton>
         }
-        title={title}
-        subheader={subheader}
+        title={login}
+        subheader={name}
       />
-      <CardMedia className={classes.media} image={image} title={title} />
+      <CardMedia className={classes.media} image={avatar_url || AVATAR_LINK} title={login} />
 
       <FloatingActionButton title='Search' onClick={onClickFloatingButton} />
 
@@ -64,6 +60,7 @@ const CardBody: FC<IProps> = ({ title, subheader, bio, initials, image }) => {
           {bio}
         </Typography>
       </CardContent>
+
       <CardActions disableSpacing>
         <IconButton aria-label='add to favorites'>
           <FavoriteIcon />
@@ -81,26 +78,43 @@ const CardBody: FC<IProps> = ({ title, subheader, bio, initials, image }) => {
           <ExpandMoreIcon />
         </IconButton>
       </CardActions>
+
       <Collapse in={expanded} timeout='auto' unmountOnExit>
         <CardContent>
-          <Typography paragraph>Method:</Typography>
-          <Typography paragraph>
-            Heat 1/2 cup of the broth in a pot until simmering, add saffron and set aside for 10 minutes.
-          </Typography>
-          <Typography paragraph>
-            Heat oil in a (14- to 16-inch) paella pan or a large, deep skillet over medium-high heat. Add chicken,
-            shrimp and chorizo, and cook, stirring occasionally until lightly browned, 6 to 8 minutes. Transfer shrimp
-            to a large plate and set aside, leaving chicken and chorizo in the pan. Add pimentón, bay leaves, garlic,
-            tomatoes, onion, salt and pepper, and cook, stirring often until thickened and fragrant, about 10 minutes.
-            Add saffron broth and remaining 4 1/2 cups chicken broth; bring to a boil.
-          </Typography>
-          <Typography paragraph>
-            Add rice and stir very gently to distribute. Top with artichokes and peppers, and cook without stirring,
-            until most of the liquid is absorbed, 15 to 18 minutes. Reduce heat to medium-low, add reserved shrimp and
-            mussels, tucking them down into the rice, and cook again without stirring, until mussels have opened and
-            rice is just tender, 5 to 7 minutes more. (Discard any mussels that don’t open.)
-          </Typography>
-          <Typography>Set aside off of the heat to let rest for 10 minutes, and then serve.</Typography>
+          {email && (
+            <>
+              <Typography paragraph>Email:</Typography>
+              <Typography paragraph>{email}</Typography>
+            </>
+          )}
+
+          {location && (
+            <>
+              <Typography paragraph>Location:</Typography>
+              <Typography paragraph>{location}</Typography>
+            </>
+          )}
+
+          {company && (
+            <>
+              <Typography paragraph>Company:</Typography>
+              <Typography paragraph>{company}</Typography>
+            </>
+          )}
+
+          {followers && (
+            <>
+              <Typography paragraph>Followers:</Typography>
+              <Typography paragraph>{followers}</Typography>
+            </>
+          )}
+
+          {following && (
+            <>
+              <Typography paragraph>Following:</Typography>
+              <Typography paragraph>{following}</Typography>
+            </>
+          )}
         </CardContent>
       </Collapse>
     </Card>
